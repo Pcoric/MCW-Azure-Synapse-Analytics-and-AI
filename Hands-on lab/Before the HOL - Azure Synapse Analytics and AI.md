@@ -93,7 +93,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 4. Select the **Create** button on the **Resource group** overview page.
 
-5. On the **Create a resource group** screen, select your desired Subscription and Region. For Resource group, enter **Synapse-MCW**, then select the **Review + Create** button.
+5. On the **Create a resource group** screen, select your desired Subscription and Region. For Resource group, enter **Synapse-KPMG**, then select the **Review + Create** button.
 
     ![The Create a resource group form is displayed populated with Synapse-MCW as the resource group name.](media/bhol_resourcegroupform.png "Naming the resource group")
 
@@ -105,7 +105,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
     <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmicrosoft%2FMCW-Azure-Synapse-Analytics-and-AI%2Fmaster%2FHands-on%2520lab%2Fenvironment-setup%2Fautomation%2F00-asa-workspace-core.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png" /></a>
 
-2. On the **Custom deployment** form, select your desired subscription and select **Synapse-MCW** for the **Resource group**. Also provide a **Unique Suffix** such as your initials followed by birth year. Finally, provide a strong **SQL Administrator Login Password**. Remember this password value, you'll need it later!
+2. On the **Custom deployment** form, select your desired subscription and select **Synapse-KPMG** for the **Resource group**. Also provide a **Unique Suffix** such as your initials followed by birth year. Finally, provide a strong **SQL Administrator Login Password**. Remember this password value, you'll need it later!
 
     ![The Custom deployment form is displayed with example data populated.](media/bhol_customdeploymentform.png "Configuring the custom deployment")
 
@@ -130,7 +130,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 2. In the Cloud Shell window, enter the following command to clone the repository files.
 
     ```PowerShell
-    git clone https://github.com/microsoft/MCW-Azure-Synapse-Analytics-and-AI.git Synapse-MCW
+    git clone https://github.com/Pcoric/MCW-Azure-Synapse-Analytics-and-AI.git Synapse-KPMG
     ```
 
 3. Keep the Cloud Shell open.
@@ -158,7 +158,7 @@ When executing the script below, it is important to let the scripts run to compl
 1. In the Cloud Shell, change the current directory to the **automation** folder of the cloned repository by executing the following:
 
     ```PowerShell
-    cd './Synapse-MCW/Hands-on lab/environment-setup/automation'
+    cd './Synapse-KPMG/Hands-on lab/environment-setup/automation'
     ```
 
 2. Execute the **01-environment-setup.ps1** script by executing the following command:
