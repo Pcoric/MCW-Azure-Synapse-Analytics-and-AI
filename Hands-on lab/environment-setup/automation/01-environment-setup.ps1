@@ -25,8 +25,6 @@ $subscriptionId = (Get-AzContext).Subscription.Id
 $global:logindomain = (Get-AzContext).Tenant.Id
 
 $templatesPath = ".\templates"
-$datasetsPath = ".\datasets"
-$pipelinesPath = ".\pipelines"
 $sqlScriptsPath = ".\sql"
 $workspaceName = "asaworkspace$($uniqueId)"
 $dataLakeAccountName = "asadatalake$($uniqueId)"
@@ -157,118 +155,6 @@ $result = Create-SQLPoolKeyVaultLinkedService -TemplatesPath $templatesPath -Wor
                  -UserName "asa.sql.workload02" -KeyVaultLinkedServiceName $keyVaultName -SecretName $keyVaultSQLUserSecretName
 Wait-ForOperation -WorkspaceName $workspaceName -OperationId $result.operationId
 
-
-Write-Information "Create data sets"
-
-$datasets = @{
-        asamcw_product_asa = $sqlPoolName.ToLower()
-        asamcw_product_csv = $dataLakeAccountName
-        asamcw_wwi_salesmall_workload1_asa = "$($sqlPoolName.ToLower())_workload01"      
-        asamcw_wwi_salesmall_workload2_asa = "$($sqlPoolName.ToLower())_workload02" 
-}
-
-foreach ($dataset in $datasets.Keys) 
-{
-        Write-Information "Creating dataset $($dataset)"
-        $result = Create-Dataset -DatasetsPath $datasetsPath -WorkspaceName $workspaceName -Name $dataset -LinkedServiceName $datasets[$dataset]
-        Wait-ForOperation -WorkspaceName $workspaceName -OperationId $result.operationId
-}
-
-Write-Information "Create pipelines"
-
-$params = @{
-        "STORAGELINKEDSERVICENAME" = $blobStorageAccountName
-}
-$workloadPipelines = [ordered]@{
-        copy_products_pipeline = "ASAMCW - Exercise 2 - Copy Product Information"
-        execute_business_analyst_queries = "ASAMCW - Exercise 8 - ExecuteBusinessAnalystQueries"
-        execute_data_analyst_and_ceo_queries = "ASAMCW - Exercise 8 - ExecuteDataAnalystAndCEOQueries"
-}
-
-foreach ($pipeline in $workloadPipelines.Keys) 
-{
-    try
-    {
-        Write-Information "Creating pipeline $($workloadPipelines[$pipeline])"
-        $result = Create-Pipeline -PipelinesPath $pipelinesPath -WorkspaceName $workspaceName -Name $workloadPipelines[$pipeline] -FileName $workloadPipelines[$pipeline] -Parameters $params
-        Wait-ForOperation -WorkspaceName $workspaceName -OperationId $result.operationId
-    }
-    catch
-    {
-        write-host $_.exception;
-    }
-}
-
-Write-Information "Creating Spark notebooks..."
-
-$notebooks = [ordered]@{
-        "ASAMCW - Exercise 7 - Machine Learning" = ".\notebooks\ASAMCW - Exercise 7 - Machine Learning.ipynb"      
-}
-
-$cellParams = [ordered]@{
-        "#DATALAKEACCOUNTNAME#" = $dataLakeAccountName
-        "#DATALAKEACCOUNTKEY#" = $dataLakeAccountKey
-        "#SQL_POOL_NAME#" = $sqlPoolName
-        "#SUBSCRIPTION_ID#" = $subscriptionId
-        "#RESOURCE_GROUP_NAME#" = $resourceGroupName
-        "#AML_WORKSPACE_NAME#" = $amlWorkspaceName
-}
-
-foreach ($notebookName in $notebooks.Keys) 
-{
-        $notebookFileName = "$($notebooks[$notebookName])"
-        Write-Information "Creating notebook $($notebookName) from $($notebookFileName)"
-        
-        $result = Create-SparkNotebook -TemplatesPath $templatesPath -SubscriptionId $subscriptionId -ResourceGroupName $resourceGroupName `
-                -WorkspaceName $workspaceName -SparkPoolName $sparkPoolName -Name $notebookName -NotebookFileName $notebookFileName -CellParams $cellParams
-        $result
-}
-
-
-$publicDataUrl = "https://solliancepublicdata.blob.core.windows.net/"
-$dataLakeStorageUrl = "https://"+ $dataLakeAccountName + ".dfs.core.windows.net/"
-$dataLakeStorageBlobUrl = "https://"+ $dataLakeAccountName + ".blob.core.windows.net/"
-$dataLakeStorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -AccountName $dataLakeAccountName)[0].Value
-$dataLakeContext = New-AzureStorageContext -StorageAccountName $dataLakeAccountName -StorageAccountKey $dataLakeStorageAccountKey
-$destinationSasKey = New-AzureStorageContainerSASToken -Container "wwi-02" -Context $dataLakeContext -Permission rwdl
-
-Write-Information "Copying single files from the public data account..."
-$singleFiles = @{
-        parquet_query_file = "wwi-02/sale-small/Year=2010/Quarter=Q4/Month=12/Day=20101231/sale-small-20101231-snappy.parquet"
-        customer_info = "wwi-02/customer-info/customerinfo.csv"
-        campaign_analytics = "wwi-02/campaign-analytics/campaignanalytics.csv"
-        products = "wwi-02/data-generators/generator-product/generator-product.csv"
-        model = "wwi-02/ml/onnx-hex/product_seasonality_classifier.onnx.hex"
-}
-
-foreach ($singleFile in $singleFiles.Keys) {
-        $source = $publicDataUrl + $singleFiles[$singleFile]
-        $destination = $dataLakeStorageBlobUrl + $singleFiles[$singleFile] + $destinationSasKey
-        Write-Information "Copying file $($source) to $($destination)"
-        azcopy copy $source $destination 
-}
-
-Write-Information "Copying sample sales raw data directories from the public data account..."
-$dataDirectories = @{
-        data2018 = "wwi-02/sale-small,wwi-02/sale-small/Year=2018/"
-        data2019 = "wwi-02/sale-small,wwi-02/sale-small/Year=2019/"
-}
-
-foreach ($dataDirectory in $dataDirectories.Keys) {
-        $vals = $dataDirectories[$dataDirectory].tostring().split(",");
-        $source = $publicDataUrl + $vals[1];
-        $path = $vals[0];
-
-        $destination = $dataLakeStorageBlobUrl + $path + $destinationSasKey
-        Write-Information "Copying directory $($source) to $($destination)"
-        azcopy copy $source $destination --recursive=true
-}
-
-Write-Information "Copying sample JSON data from the repository..."
-$rawData = "./rawdata/json-data"
-$destination = $dataLakeStorageUrl +"wwi-02/product-json" + $destinationSasKey
-azcopy copy $rawData $destination --recursive
-
 Write-Information "Setup machine learning tables in SQL Pool"
 $params = @{
     "PASSWORD" = $sqlPassword
@@ -362,22 +248,7 @@ $fileFormatQuery = "select count(name) as Count from sys.external_file_formats w
 $result = (Invoke-SqlCmd -Query $fileFormatQuery -ConnectionString $sqlConnectionString) | Select-Object -ExpandProperty Count
 if ($result -eq 1){Write-Host 'File Format csv verified'}else{Write-Host 'File format csv not found' -ForegroundColor Red;$validEnvironment = $false}
 
-$storageFilesAndFolders = @{
-        parquet_query_file = "wwi-02/sale-small/Year=2010/Quarter=Q4/Month=12/Day=20101231/sale-small-20101231-snappy.parquet"
-        customer_info = "wwi-02/customer-info/customerinfo.csv"
-        campaign_analytics = "wwi-02/campaign-analytics/campaignanalytics.csv"
-        products = "wwi-02/data-generators/generator-product/generator-product.csv"
-        model = "wwi-02/ml/onnx-hex/product_seasonality_classifier.onnx.hex"
-        json1 = "wwi-02/product-json/json-data/product-1.json"
-        json2 = "wwi-02/product-json/json-data/product-2.json"
-        json3 = "wwi-02/product-json/json-data/product-3.json"
-        json4 = "wwi-02/product-json/json-data/product-4.json"
-        json5 = "wwi-02/product-json/json-data/product-5.json"
-        ss2018 = "wwi-02/sale-small/Year=2018"
-        ss2019 = "wwi-02/sale-small/Year=2019"
-}
-
-Write-Information "Verifying the data lake storage account and required files..."
+Write-Information "Verifying the data lake storage account..."
 $dataLakeAccount = Get-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $dataLakeAccountName
 
 if ($dataLakeAccount -eq $null) {
@@ -393,50 +264,6 @@ if ($dataLakeAccount -eq $null) {
         	        $validEnvironment = $false
 		}
 	}
-}
-
-$pathsAndCounts = @{
-    "wwi-02/sale-small/Year=2018" = 365
-    "wwi-02/sale-small/Year=2019" = 364
-}
-
-foreach($path in $pathsAndCounts.Keys){
-	$fileCount = (Get-AzDataLakeGen2ChildItem -Context $dataLakeAccount.Context -FileSystem $path.Split("/")[0] -Path $path.Replace($path.Split("/")[0] +"/","") -Recurse | Where-Object {$_.Length -gt 0}).Count
-	if($fileCount -eq $pathsAndCounts[$path]){
-		Write-Host "$($path) file count verified at $($pathsAndCounts[$path])"
-	} else {
-                Write-Host "$($path) file count INCORRECT expected $($pathsAndCounts[$path]), actual $($fileCount)." -ForegroundColor Red
-                $validEnvironment = $false
-	}
-}
-
-$asaArtifacts = [ordered]@{
-        "asamcw_wwi_salesmall_workload1_asa" = "datasets"                
-        "asamcw_wwi_salesmall_workload2_asa" = "datasets" 
-        "asamcw_product_csv" = "datasets"                
-        "asamcw_product_asa" = "datasets"   
-        "ASAMCW - Exercise 2 - Copy Product Information" = "pipelines"
-        "ASAMCW - Exercise 8 - ExecuteBusinessAnalystQueries" = "pipelines"   
-        "ASAMCW - Exercise 8 - ExecuteDataAnalystAndCEOQueries" = "pipelines"     
-        "ASAMCW - Exercise 7 - Machine Learning" = "notebooks"
-        "$($keyVaultName)" = "linkedServices"
-        "$($dataLakeAccountName)" = "linkedServices"
-        "$($blobStorageAccountName)" = "linkedServices"
-        "$($sqlPoolName)" = "linkedServices"
-        "$($sqlPoolName.ToLower())_workload01" = "linkedServices"
-        "$($sqlPoolName.ToLower())_workload02" = "linkedServices"
-}
-
-foreach ($asaArtifactName in $asaArtifacts.Keys) {
-        try {
-                Write-Information "Checking $($asaArtifactName) in $($asaArtifacts[$asaArtifactName])"
-                $result = Get-ASAObject -WorkspaceName $workspaceName -Category $asaArtifacts[$asaArtifactName] -Name $asaArtifactName
-                Write-Host "$($asaArtifactName) verified in Synapse Workspace $($asaArtifacts[$asaArtifactName])"
-        }
-        catch {
-                Write-Host "$($asaArtifactName) verified in Synapse Workspace $($asaArtifacts[$asaArtifactName])" -ForegroundColor Red
-                $validEnvironment = $false
-        }
 }
 
 if($validEnvironment = $true){
