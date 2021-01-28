@@ -15,7 +15,7 @@ Cognitive Search
 - https://docs.microsoft.com/en-us/azure/search/knowledge-store-projection-overview
 - We have code that is close in https://github.com/solliancenet/tech-immersion-data-ai/tree/master/ai-exp2 
 
-
+- random edit
 Forms Recognizer
 - Process invoices 
 - Invoke using Python, returns JSON document of key/value pairs extracted from document
