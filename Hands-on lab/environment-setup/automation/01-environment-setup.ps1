@@ -131,6 +131,14 @@ catch
 {
     write-host $_.exception
 }
+try
+{
+    $result = Execute-SQLScriptFile-SqlCmd -SQLScriptsPath $sqlScriptsPath -WorkspaceName $workspaceName -SQLPoolName $sqlPoolName -SQLUserName $sqlUserName -SQLPassword $sqlPassword -FileName "CreateHRTable" -Parameters $params
+}
+catch 
+{
+    write-host $_.exception
+}
 
 
 $result
