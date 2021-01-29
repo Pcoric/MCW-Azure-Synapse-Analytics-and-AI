@@ -101,7 +101,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 ### Task 3: Upload the source dataset to Azure Blob
 
-1. Here we'll go to the asure portal, select our azure blob store and use the storage explorer blade to upload our dataset to the hrdata container.
+1. Once the infrastructure deployment is complete, we'll need to upload our source dataset to azure Blob. Here we'll go to the azure portal, select our azure blob store and use the storage explorer blade to upload our dataset to the hrdata container.
 
 2. Once we upload our dataset to blob, we'll be able to execute the PowerShell script in our Azure Cloud shell that provisions our Synapse environments datasets, dataflows, pipelines and notebooks.
 
