@@ -155,6 +155,19 @@ $result = Create-SQLPoolKeyVaultLinkedService -TemplatesPath $templatesPath -Wor
                  -UserName "asa.sql.workload02" -KeyVaultLinkedServiceName $keyVaultName -SecretName $keyVaultSQLUserSecretName
 Wait-ForOperation -WorkspaceName $workspaceName -OperationId $result.operationId
 
+Write-Information "Create data sets"
+
+$datasets = @{
+        SQLDestinationPoC = $sqlPoolName.ToLower()
+        hrdatapoc = $blobStorageAccountName
+}
+
+foreach ($dataset in $datasets.Keys) 
+{
+        Write-Information "Creating dataset $($dataset)"
+        $result = Create-Dataset -DatasetsPath $datasetsPath -WorkspaceName $workspaceName -Name $dataset -LinkedServiceName $datasets[$dataset]
+        Wait-ForOperation -WorkspaceName $workspaceName -OperationId $result.operationId
+}
 Write-Information "Setup machine learning tables in SQL Pool"
 $params = @{
     "PASSWORD" = $sqlPassword

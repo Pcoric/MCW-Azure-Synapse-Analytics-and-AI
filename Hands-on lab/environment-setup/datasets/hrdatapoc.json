@@ -1,0 +1,143 @@
+{
+	"name": "hrdatapoc",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Report Data",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Synapse_POC_dataset_MS_sharing_approved.xlsx",
+				"container": "hrdata"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Record_id",
+				"type": "String"
+			},
+			{
+				"name": "Function",
+				"type": "String"
+			},
+			{
+				"name": "Cost Center",
+				"type": "String"
+			},
+			{
+				"name": "Job Title",
+				"type": "String"
+			},
+			{
+				"name": "Service Line",
+				"type": "String"
+			},
+			{
+				"name": "Legal Entity",
+				"type": "String"
+			},
+			{
+				"name": "Primary Line of Business",
+				"type": "String"
+			},
+			{
+				"name": "Primary Sector and Segment",
+				"type": "String"
+			},
+			{
+				"name": "Service Network",
+				"type": "String"
+			},
+			{
+				"name": "Service Group",
+				"type": "String"
+			},
+			{
+				"name": "Member Firm",
+				"type": "String"
+			},
+			{
+				"name": " Performance Form Indicator",
+				"type": "String"
+			},
+			{
+				"name": "Employee Class",
+				"type": "String"
+			},
+			{
+				"name": "Secondary Line of Business",
+				"type": "String"
+			},
+			{
+				"name": "Is Client facing ?",
+				"type": "String"
+			},
+			{
+				"name": "Secondary Sector and Segment",
+				"type": "String"
+			},
+			{
+				"name": "Customizable Field 13",
+				"type": "String"
+			},
+			{
+				"name": "Sublevel",
+				"type": "String"
+			},
+			{
+				"name": "Candidate for Promotion",
+				"type": "String"
+			},
+			{
+				"name": "Form Template ID",
+				"type": "String"
+			},
+			{
+				"name": "Form Template Name",
+				"type": "String"
+			},
+			{
+				"name": "Form Title",
+				"type": "String"
+			},
+			{
+				"name": "Document ID",
+				"type": "String"
+			},
+			{
+				"name": "Candidate for Promotion/Not a Candidate for Promotion/Low Performance",
+				"type": "String"
+			},
+			{
+				"name": "Overall Performance Rating",
+				"type": "String"
+			},
+			{
+				"name": "Overall Performance Rating Description",
+				"type": "String"
+			},
+			{
+				"name": "Overall Performance Rating Description (Locale Specific)",
+				"type": "String"
+			},
+			{
+				"name": "Unadjusted Overall Performance Rating Description (Locale Specific)",
+				"type": "String"
+			},
+			{
+				"name": "Calculated Overall Performance Rating",
+				"type": "String"
+			},
+			{
+				"name": "Calculated Overall Performance Rating Description",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

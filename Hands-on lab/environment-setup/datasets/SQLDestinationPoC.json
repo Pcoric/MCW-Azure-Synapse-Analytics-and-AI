@@ -1,0 +1,128 @@
+{
+	"name": "SQLDestinationPoC",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqlpool01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Function",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CostCenter",
+				"type": "nvarchar"
+			},
+			{
+				"name": "JobTitle",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ServiceLine",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PrimaryLOB",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PrimarySectorSegment",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ServiceNetwork",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ServiceGroup",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EmployeeType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EmployeeClass",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SecondaryLOB",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IsClientFacing",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SecondarySectorSegment",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Sublevel",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FormTemplateID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FormTemplateName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FormTitle",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DocumentID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PromotionStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OverallPerformanceRating",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OverallPerformanceRatingDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OverallPerformanceRatingDescriptionLocaleSpecific",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UnadjustedOverallPerformanceRatingDescriptionLocaleSpecific",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CalculatedOverallPerformanceRating",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CalculatedOverallPerformanceRatingDescription",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "wwi_mcw",
+			"table": "HRData"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}
