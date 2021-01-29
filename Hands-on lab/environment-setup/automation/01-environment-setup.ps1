@@ -169,6 +169,33 @@ foreach ($dataset in $datasets.Keys)
         $result = Create-Dataset -DatasetsPath $datasetsPath -WorkspaceName $workspaceName -Name $dataset -LinkedServiceName $datasets[$dataset]
         Wait-ForOperation -WorkspaceName $workspaceName -OperationId $result.operationId
 }
+
+Write-Information "Creating Spark notebooks..."
+
+$notebooks = [ordered]@{
+        "HRData EDA" = ".\notebooks\HRData EDA.ipynb"      
+}
+
+$cellParams = [ordered]@{
+        "#DATALAKEACCOUNTNAME#" = $dataLakeAccountName
+        "#DATALAKEACCOUNTKEY#" = $dataLakeAccountKey
+        "#SQL_POOL_NAME#" = $sqlPoolName
+        "#SUBSCRIPTION_ID#" = $subscriptionId
+        "#RESOURCE_GROUP_NAME#" = $resourceGroupName
+        "#AML_WORKSPACE_NAME#" = $amlWorkspaceName
+}
+
+foreach ($notebookName in $notebooks.Keys) 
+{
+        $notebookFileName = "$($notebooks[$notebookName])"
+        Write-Information "Creating notebook $($notebookName) from $($notebookFileName)"
+        
+        $result = Create-SparkNotebook -TemplatesPath $templatesPath -SubscriptionId $subscriptionId -ResourceGroupName $resourceGroupName `
+                -WorkspaceName $workspaceName -SparkPoolName $sparkPoolName -Name $notebookName -NotebookFileName $notebookFileName -CellParams $cellParams
+        $result
+}
+
+
 Write-Information "Setup machine learning tables in SQL Pool"
 $params = @{
     "PASSWORD" = $sqlPassword

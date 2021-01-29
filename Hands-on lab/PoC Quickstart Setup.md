@@ -31,11 +31,11 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Requirements](#requirements)
   - [Before the hands-on lab](#before-the-hands-on-lab)
     - [Task 1: Download the current lab assets](#task-1-download-the-current-lab-assets)
-    - [Task 1: Create a resource group in Azure](#task-1-create-a-resource-group-in-azure)
     - [Task 2: Create the Azure Synapse Analytics workspace](#task-2-create-the-azure-synapse-analytics-workspace)
-    - [Task 3: Download lab artifacts](#task-3-download-lab-artifacts)
-    - [Task 4: Establish a user context](#task-4-establish-a-user-context)
-    - [Task 5: Run environment setup PowerShell script](#task-5-run-environment-setup-powershell-script)
+    - [Task 3: Upload the Source Dataset to Azure Blob](#task-3-upload-the-source-dataset-to-azure-blob)
+    - [Task 4: Download lab artifacts](#task-3-download-lab-artifacts)
+    - [Task 5: Establish a user context](#task-4-establish-a-user-context)
+    - [Task 6: Run environment setup PowerShell script](#task-5-run-environment-setup-powershell-script)
 
 <!-- /TOC -->
 
@@ -79,33 +79,13 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 4. Download the ZIP file and extract it to a location of your choosing on your local machine.
 
-### Task 1: Create a resource group in Azure
-
-1. Log into the [Azure Portal](https://portal.azure.com) using your Azure credentials.
-
-2. On the Azure Portal home screen, select the **+ Create a resource** tile.
-
-    ![A portion of the Azure Portal home screen is displayed with the + Create a resource tile highlighted.](media/bhol_createaresource.png "Create a resource")
-
-3. In the **Search the Marketplace** text box, type **Resource group** and press the **Enter** key.
-
-    ![On the new resource screen Resource group is entered as a search term.](media/bhol_searchmarketplaceresourcegroup.png "Searching for resource group")
-
-4. Select the **Create** button on the **Resource group** overview page.
-
-5. On the **Create a resource group** screen, select your desired Subscription and Region. For Resource group, enter **Synapse-KPMG**, then select the **Review + Create** button.
-
-    ![The Create a resource group form is displayed populated with Synapse-MCW as the resource group name.](media/bhol_resourcegroupform.png "Naming the resource group")
-
-6. Select the **Create** button once validation has passed.
-
 ### Task 2: Create the Azure Synapse Analytics workspace
 
 1. Deploy the workspace through the following Azure ARM template (press the button below):
 
     <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmicrosoft%2FMCW-Azure-Synapse-Analytics-and-AI%2Fmaster%2FHands-on%2520lab%2Fenvironment-setup%2Fautomation%2F00-asa-workspace-core.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png" /></a>
 
-2. On the **Custom deployment** form, select your desired subscription and select **Synapse-KPMG** for the **Resource group**. Also provide a **Unique Suffix** such as your initials followed by birth year. Finally, provide a strong **SQL Administrator Login Password**. Remember this password value, you'll need it later!
+2. On the **Custom deployment** form, select your desired subscription and select Create New, name for the **Resource group** **Synapse-KPMG**. Also provide a **Unique Suffix** such as your initials followed by birth year. Finally, provide a strong **SQL Administrator Login Password**. Remember this password value, you'll need it later!
 
     ![The Custom deployment form is displayed with example data populated.](media/bhol_customdeploymentform.png "Configuring the custom deployment")
 
@@ -119,7 +99,13 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
     > **Note**: You may experience a deployment step failing in regard to Role Assignment. This error may safely be ignored.
 
-### Task 3: Download lab artifacts
+### Task 3: Upload the source dataset to Azure Blob
+
+1. Here we'll go to the asure portal, select our azure blob store and use the storage explorer blade to upload our dataset to the hrdata container.
+
+2. Once we upload our dataset to blob, we'll be able to execute the PowerShell script in our Azure Cloud shell that provisions our Synapse environments datasets, dataflows, pipelines and notebooks.
+
+### Task 4: Download lab artifacts
 
 1. In the Azure Portal, open the Azure Cloud Shell by selecting its icon from the right side of the top toolbar. Be sure to select **Powershell** as the shell type.
 
@@ -135,7 +121,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 3. Keep the Cloud Shell open.
 
-### Task 4: Establish a user context
+### Task 5: Establish a user context
 
 1. In the Cloud Shell, execute the following command:
 
@@ -151,14 +137,14 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 3. Once complete, you may close the tab from the previous step and return to the Cloud Shell.
 
-### Task 5: Run environment setup PowerShell script
+### Task 6: Run environment setup PowerShell script
 
 When executing the script below, it is important to let the scripts run to completion. Some tasks may take longer than others to run. When a script completes execution, you will be returned to a command prompt.
 
 1. In the Cloud Shell, change the current directory to the **automation** folder of the cloned repository by executing the following:
 
     ```PowerShell
-    cd './Synapse-KPMG/Hands-on lab/environment-setup/automation'
+    cd './Synapse-KPMG/PoC quickstart/environment-setup/automation'
     ```
 
 2. Execute the **01-environment-setup.ps1** script by executing the following command:
