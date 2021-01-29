@@ -2,7 +2,7 @@
 	"name": "hrdatapoc",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureBlobStorage1",
+			"referenceName": "asastorekpmg",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
