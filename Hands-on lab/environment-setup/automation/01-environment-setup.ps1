@@ -26,6 +26,7 @@ $global:logindomain = (Get-AzContext).Tenant.Id
 
 $templatesPath = ".\templates"
 $datasetsPath = ".\datasets"
+$dataflowsPath = ".\dataflow"
 $pipelinesPath = ".\pipelines"
 $sqlScriptsPath = ".\sql"
 $workspaceName = "asaworkspace$($uniqueId)"
@@ -169,6 +170,30 @@ foreach ($dataset in $datasets.Keys)
         Write-Information "Creating dataset $($dataset)"
         $result = Create-Dataset -DatasetsPath $datasetsPath -WorkspaceName $workspaceName -Name $dataset -LinkedServiceName $datasets[$dataset]
         Wait-ForOperation -WorkspaceName $workspaceName -OperationId $result.operationId
+}
+
+Write-Information "Create dataflows"
+
+$params = @{
+        "STORAGELINKEDSERVICENAME" = $blobStorageAccountName
+}
+$workloadDataflows = [ordered]@{
+        cdm_to_sql_dataflow = "CDMtoSQL"
+        src_to_cdm_pipeline = "SrcToCDM"
+}
+
+foreach ($dataflow in $workloadDataflows.Keys) 
+{
+    try
+    {
+        Write-Information "Creating dataflow $($workloadDataflows[$dataflow])"
+        $result = Create-Dataflow -DataflowsPath $dataflowsPath -WorkspaceName $workspaceName -Name $workloadDataflows[$dataflow] -FileName $workloadDataflows[$dataflow] -Parameters $params
+        Wait-ForOperation -WorkspaceName $workspaceName -OperationId $result.operationId
+    }
+    catch
+    {
+        write-host $_.exception;
+    }
 }
 
 Write-Information "Create pipelines"

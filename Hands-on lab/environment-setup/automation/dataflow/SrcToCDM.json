@@ -15,11 +15,11 @@
 			"sinks": [
 				{
 					"linkedService": {
-						"referenceName": "asadatalakepcd",
+						"referenceName": "asadatalakekpmg",
 						"type": "LinkedServiceReference"
 					},
 					"schemaLinkedService": {
-						"referenceName": "asadatalakepcd",
+						"referenceName": "asadatalakekpmg",
 						"type": "LinkedServiceReference"
 					},
 					"name": "sink1"
