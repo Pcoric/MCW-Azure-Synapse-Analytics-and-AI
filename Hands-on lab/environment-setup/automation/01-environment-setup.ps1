@@ -25,6 +25,7 @@ $subscriptionId = (Get-AzContext).Subscription.Id
 $global:logindomain = (Get-AzContext).Tenant.Id
 
 $templatesPath = ".\templates"
+$datasetsPath = ".\datasets"
 $sqlScriptsPath = ".\sql"
 $workspaceName = "asaworkspace$($uniqueId)"
 $dataLakeAccountName = "asadatalake$($uniqueId)"
