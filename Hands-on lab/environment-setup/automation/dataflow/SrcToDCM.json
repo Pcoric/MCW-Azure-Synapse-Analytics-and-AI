@@ -1,0 +1,32 @@
+{
+	"name": "SrcToCDM",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "hrdatapoc",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "asadatalakepcd",
+						"type": "LinkedServiceReference"
+					},
+					"schemaLinkedService": {
+						"referenceName": "asadatalakepcd",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tRecord_id as long,\n\t\tFunction as string,\n\t\t{Cost Center} as string,\n\t\t{Job Title} as string,\n\t\t{Service Line} as string,\n\t\t{Legal Entity} as string,\n\t\t{Primary Line of Business} as string,\n\t\t{Primary Sector and Segment} as string,\n\t\t{Service Network} as string,\n\t\t{Service Group} as string,\n\t\t{Member Firm} as string,\n\t\t{ Performance Form Indicator} as string,\n\t\t{Employee Class} as string,\n\t\t{Secondary Line of Business} as string,\n\t\t{Is Client facing ?} as string,\n\t\t{Secondary Sector and Segment} as string,\n\t\t{Customizable Field 13} as string,\n\t\tSublevel as short,\n\t\t{Candidate for Promotion} as string,\n\t\t{Form Template ID} as short,\n\t\t{Form Template Name} as string,\n\t\t{Form Title} as string,\n\t\t{Document ID} as integer,\n\t\t{Candidate for Promotion/Not a Candidate for Promotion/Low Performance} as string,\n\t\t{Overall Performance Rating} as short,\n\t\t{Overall Performance Rating Description} as string,\n\t\t{Overall Performance Rating Description (Locale Specific)} as string,\n\t\t{Unadjusted Overall Performance Rating Description (Locale Specific)} as string,\n\t\t{Calculated Overall Performance Rating} as string,\n\t\t{Calculated Overall Performance Rating Description} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 sink(allowSchemaDrift: false,\n\tvalidateSchema: true,\n\tinput(\n\t\tRecord_id as string,\n\t\tFunction as string,\n\t\tCostCenter as string,\n\t\tJobTitle as string,\n\t\tServiceLine as string,\n\t\tPrimaryLOB as string,\n\t\tPrimarySectorSegment as string,\n\t\tServiceNetwork as string,\n\t\tServiceGroup as string,\n\t\tEmployeeType as string,\n\t\tEmployeeClass as string,\n\t\tSecondaryLOB as string,\n\t\tIsClientFacing as string,\n\t\tSecondarySectorSegment as string,\n\t\tSublevel as string,\n\t\tFormTemplateID as string,\n\t\tFormTemplateName as string,\n\t\tFormTitle as string,\n\t\tDocumentID as string,\n\t\tPromotionStatus as string,\n\t\tOverallPerformanceRating as string,\n\t\tOverallPerformanceRatingDescription as string,\n\t\tOverallPerformanceRatingDescriptionLocaleSpecific as string,\n\t\tUnadjustedOverallPerformanceRatingDescriptionLocaleSpecific as string,\n\t\tCalculatedOverallPerformanceRating as string,\n\t\tCalculatedOverallPerformanceRatingDescription as string\n\t),\n\tentity: 'Promotion.cdm.json/Promotion',\n\tformat: 'cdm',\n\tmanifestType: 'manifest',\n\tmanifestName: 'hr',\n\tfolderPath: 'schema/hr',\n\tfileSystem: 'hrdata',\n\tcolumnDelimiter: ',',\n\tcolumnNamesAsHeader: true,\n\tcorpusPath: 'schema/hr',\n\tcorpusStore: 'adlsgen2',\n\tadlsgen2_fileSystem: 'hrdata',\n\ttruncate: false,\n\tmapColumn(\n\t\tRecord_id,\n\t\tFunction,\n\t\tSublevel,\n\t\tCostCenter = {Cost Center},\n\t\tJobTitle = {Job Title},\n\t\tServiceLine = {Service Line},\n\t\tPrimaryLOB = {Primary Line of Business},\n\t\tPrimarySectorSegment = {Primary Sector and Segment},\n\t\tServiceNetwork = {Service Network},\n\t\tServiceGroup = {Service Group},\n\t\tEmployeeType = { Performance Form Indicator},\n\t\tEmployeeClass = {Employee Class},\n\t\tSecondaryLOB = {Secondary Line of Business},\n\t\tIsClientFacing = {Is Client facing ?},\n\t\tSecondarySectorSegment = {Secondary Sector and Segment},\n\t\tFormTemplateID = {Form Template ID},\n\t\tFormTemplateName = {Form Template Name},\n\t\tFormTitle = {Form Title},\n\t\tDocumentID = {Document ID},\n\t\tPromotionStatus = {Candidate for Promotion/Not a Candidate for Promotion/Low Performance},\n\t\tOverallPerformanceRating = {Overall Performance Rating},\n\t\tOverallPerformanceRatingDescription = {Overall Performance Rating Description},\n\t\tOverallPerformanceRatingDescriptionLocaleSpecific = {Overall Performance Rating Description (Locale Specific)},\n\t\tUnadjustedOverallPerformanceRatingDescriptionLocaleSpecific = {Unadjusted Overall Performance Rating Description (Locale Specific)},\n\t\tCalculatedOverallPerformanceRating = {Calculated Overall Performance Rating},\n\t\tCalculatedOverallPerformanceRatingDescription = {Calculated Overall Performance Rating Description}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}

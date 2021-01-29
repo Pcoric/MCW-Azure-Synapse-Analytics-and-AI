@@ -1,0 +1,36 @@
+{
+	"name": "SourceToCDMPipeline",
+	"properties": {
+		"description": "Synapse PoC",
+		"activities": [
+			{
+				"name": "SrcToCDM",
+				"description": "Brings Data from Data Store into Data Lake gen2 as a CDM entity",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "SrcToCDM",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T20:56:59Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

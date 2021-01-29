@@ -1,0 +1,42 @@
+{
+	"name": "CDMtoSQLPool",
+	"properties": {
+		"description": "Get's CDM Data into a SQL Pool Table.",
+		"activities": [
+			{
+				"name": "CDMToSQL",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "CDMToSQL",
+						"type": "DataFlowReference"
+					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "asadatalakepcd",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "staging/mcwhrdata"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2021-01-19T19:02:59Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

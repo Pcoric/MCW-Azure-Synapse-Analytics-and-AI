@@ -1,0 +1,28 @@
+{
+	"name": "CDMToSQL",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "asadatalakepcd",
+						"type": "LinkedServiceReference"
+					},
+					"name": "CDMHR"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SQLDestinationPoC",
+						"type": "DatasetReference"
+					},
+					"name": "HRTable"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tRecord_id as string,\n\t\tFunction as string,\n\t\tCostCenter as string,\n\t\tJobTitle as string,\n\t\tServiceLine as string,\n\t\tPrimaryLOB as string,\n\t\tPrimarySectorSegment as string,\n\t\tServiceNetwork as string,\n\t\tServiceGroup as string,\n\t\tEmployeeType as string,\n\t\tEmployeeClass as string,\n\t\tSecondaryLOB as string,\n\t\tIsClientFacing as string,\n\t\tSecondarySectorSegment as string,\n\t\tSublevel as string,\n\t\tFormTemplateID as string,\n\t\tFormTemplateName as string,\n\t\tFormTitle as string,\n\t\tDocumentID as string,\n\t\tPromotionStatus as string,\n\t\tOverallPerformanceRating as string,\n\t\tOverallPerformanceRatingDescription as string,\n\t\tOverallPerformanceRatingDescriptionLocaleSpecific as string,\n\t\tUnadjustedOverallPerformanceRatingDescriptionLocaleSpecific as string,\n\t\tCalculatedOverallPerformanceRating as string,\n\t\tCalculatedOverallPerformanceRatingDescription as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: true,\n\tignoreNoFilesFound: false,\n\tmodifiedAfter: (toTimestamp(1610668800000L)),\n\tentity: 'Promotion',\n\tformat: 'cdm',\n\tmanifestType: 'manifest',\n\tmanifestName: 'hr',\n\tlocal: true,\n\tfolderPath: 'schema/hr',\n\tfileSystem: 'hrdata') ~> CDMHR\nCDMHR sink(input(\n\t\tID as integer,\n\t\tFunction as string,\n\t\tCostCenter as string,\n\t\tJobTitle as string,\n\t\tServiceLine as string,\n\t\tPrimaryLOB as string,\n\t\tPrimarySectorSegment as string,\n\t\tServiceNetwork as string,\n\t\tServiceGroup as string,\n\t\tEmployeeType as string,\n\t\tEmployeeClass as string,\n\t\tSecondaryLOB as string,\n\t\tIsClientFacing as string,\n\t\tSecondarySectorSegment as string,\n\t\tSublevel as integer,\n\t\tFormTemplateID as integer,\n\t\tFormTemplateName as string,\n\t\tFormTitle as string,\n\t\tDocumentID as integer,\n\t\tPromotionStatus as string,\n\t\tOverallPerformanceRating as integer,\n\t\tOverallPerformanceRatingDescription as string,\n\t\tOverallPerformanceRatingDescriptionLocaleSpecific as string,\n\t\tUnadjustedOverallPerformanceRatingDescriptionLocaleSpecific as string,\n\t\tCalculatedOverallPerformanceRating as integer,\n\t\tCalculatedOverallPerformanceRatingDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tstaged: true,\n\tallowCopyCommand: true,\n\tmapColumn(\n\t\tID = Record_id,\n\t\tFunction,\n\t\tCostCenter,\n\t\tJobTitle,\n\t\tServiceLine,\n\t\tPrimaryLOB,\n\t\tPrimarySectorSegment,\n\t\tServiceNetwork,\n\t\tServiceGroup,\n\t\tEmployeeType,\n\t\tEmployeeClass,\n\t\tSecondaryLOB,\n\t\tIsClientFacing,\n\t\tSecondarySectorSegment,\n\t\tSublevel,\n\t\tFormTemplateID,\n\t\tFormTemplateName,\n\t\tFormTitle,\n\t\tDocumentID,\n\t\tPromotionStatus,\n\t\tOverallPerformanceRating,\n\t\tOverallPerformanceRatingDescription,\n\t\tOverallPerformanceRatingDescriptionLocaleSpecific,\n\t\tUnadjustedOverallPerformanceRatingDescriptionLocaleSpecific,\n\t\tCalculatedOverallPerformanceRating,\n\t\tCalculatedOverallPerformanceRatingDescription\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> HRTable"
+		}
+	}
+}

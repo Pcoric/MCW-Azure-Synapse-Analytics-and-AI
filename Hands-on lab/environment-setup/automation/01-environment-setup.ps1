@@ -26,6 +26,7 @@ $global:logindomain = (Get-AzContext).Tenant.Id
 
 $templatesPath = ".\templates"
 $datasetsPath = ".\datasets"
+$pipelinesPath = ".\pipelines"
 $sqlScriptsPath = ".\sql"
 $workspaceName = "asaworkspace$($uniqueId)"
 $dataLakeAccountName = "asadatalake$($uniqueId)"
@@ -170,6 +171,30 @@ foreach ($dataset in $datasets.Keys)
         Wait-ForOperation -WorkspaceName $workspaceName -OperationId $result.operationId
 }
 
+Write-Information "Create pipelines"
+
+$params = @{
+        "STORAGELINKEDSERVICENAME" = $blobStorageAccountName
+}
+$workloadPipelines = [ordered]@{
+        cdm_to_sql_pool_pipeline = "CDMtoSQLPool"
+        src_to_cdm_pipeline = "SourceToCDMPipeline"
+}
+
+foreach ($pipeline in $workloadPipelines.Keys) 
+{
+    try
+    {
+        Write-Information "Creating pipeline $($workloadPipelines[$pipeline])"
+        $result = Create-Pipeline -PipelinesPath $pipelinesPath -WorkspaceName $workspaceName -Name $workloadPipelines[$pipeline] -FileName $workloadPipelines[$pipeline] -Parameters $params
+        Wait-ForOperation -WorkspaceName $workspaceName -OperationId $result.operationId
+    }
+    catch
+    {
+        write-host $_.exception;
+    }
+}
+
 Write-Information "Creating Spark notebooks..."
 
 $notebooks = [ordered]@{
@@ -256,7 +281,7 @@ $result = (Invoke-SqlCmd -Query $schemaQuery -ConnectionString $sqlConnectionStr
 if ($result -eq 1){Write-Host 'Schema wwi_mcw verified'}else{Write-Host 'Schema wwi_mcw not found' -ForegroundColor Red;$validEnvironment = $false}
 
 Write-Information "Verifying the existence of the SQL Pool Tables..."
-$sqlTables = 'Product', 'ASAMCWMLModelExt','ASAMCWMLModel'
+$sqlTables = 'HRData'
 foreach($table in $sqlTables)
 {
         $tblQuery = "select count(name) as Count from sys.tables where name = '$($table)' and SCHEMA_NAME(schema_id) = 'wwi_mcw'"
