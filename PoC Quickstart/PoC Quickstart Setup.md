@@ -53,13 +53,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 5. [Python Extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
 
-6. [Azure Function Core Tools v.3](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=windows%2Ccsharp%2Cbash#v2)
-
-7. [Azure Functions Extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions)
-
-8. [Postman](https://www.postman.com/downloads/)
-
-9. [Ensure the Microsoft.Sql resource provider is registered in your Azure Subscription](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types).
+6. [Ensure the Microsoft.Sql resource provider is registered in your Azure Subscription](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types).
 
 ## Before the hands-on lab
 
@@ -67,7 +61,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 ### Task 1: Download the current lab assets
 
-1. Access the [GitHub repository page](https://github.com/microsoft/MCW-Azure-Synapse-Analytics-and-AI).
+1. Access the [GitHub repository page](https://github.com/Pcoric/MCW-Azure-Synapse-Analytics-and-AI).
 
 2. Toward the right side of the screen, expand the **Code** button menu.
 
@@ -144,7 +138,7 @@ When executing the script below, it is important to let the scripts run to compl
 1. In the Cloud Shell, change the current directory to the **automation** folder of the cloned repository by executing the following:
 
     ```PowerShell
-    cd './Synapse-KPMG/PoC quickstart/environment-setup/automation'
+    cd './Synapse-KPMG/PoC Quickstart/environment-setup/automation'
     ```
 
 2. Execute the **01-environment-setup.ps1** script by executing the following command:
