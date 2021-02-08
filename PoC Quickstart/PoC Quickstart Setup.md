@@ -102,12 +102,6 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 2. Once we upload our dataset to blob, we'll be able to execute the PowerShell script in our Azure Cloud shell that provisions our Synapse environments' datasets, dataflows, pipelines and notebooks.
 
-### Task 4: Upload the source dataset to Azure Blob
-
-1. Using Azure Storage Explorer in the Desktop tool or Portal, navigate to the hrdata container in our Azure Data Lake gen2 instance. Upload the entire schema folder from this project directory directly to the hrdata container.
-
-2. Once uploaded, this will allow us to set up an integration dataset that can be used to move data into and out of our CDM location.
-
 ### Task 4: (Optional) Upload the CDM Schema to Azure Data Lake
 
 1. In the Azure Portal, open the Azure Cloud Shell by selecting its icon from the right side of the top toolbar. Be sure to select **Powershell** as the shell type.
