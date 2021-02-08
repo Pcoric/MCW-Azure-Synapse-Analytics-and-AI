@@ -33,9 +33,10 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 1: Download the current lab assets](#task-1-download-the-current-lab-assets)
     - [Task 2: Create the Azure Synapse Analytics workspace](#task-2-create-the-azure-synapse-analytics-workspace)
     - [Task 3: Upload the Source Dataset to Azure Blob](#task-3-upload-the-source-dataset-to-azure-blob)
-    - [Task 4: Download lab artifacts](#task-3-download-lab-artifacts)
-    - [Task 5: Establish a user context](#task-4-establish-a-user-context)
-    - [Task 6: Run environment setup PowerShell script](#task-5-run-environment-setup-powershell-script)
+    - [Task 4: (Optional) Upload the CDM Schema to Azure Data Lake](#task-3-upload-the-source-dataset-to-azure-blob)
+    - [Task 5: Download lab artifacts](#task-3-download-lab-artifacts)
+    - [Task 6: Establish a user context](#task-4-establish-a-user-context)
+    - [Task 7: Run environment setup PowerShell script](#task-5-run-environment-setup-powershell-script)
 
 <!-- /TOC -->
 
@@ -49,11 +50,13 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 3. [PIP](https://pip.pypa.io/en/stable/installing/#do-i-need-to-install-pip)
 
-4. [Visual Studio Code](https://code.visualstudio.com/)
+4. [Azure Storage Explorer](https://azure.microsoft.com/en-us/features/storage-explorer/)
 
-5. [Python Extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+5. [Visual Studio Code](https://code.visualstudio.com/)
 
-6. [Ensure the Microsoft.Sql resource provider is registered in your Azure Subscription](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types).
+6. [Python Extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+
+7. [Ensure the Microsoft.Sql resource provider is registered in your Azure Subscription](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types).
 
 ## Before the hands-on lab
 
@@ -97,9 +100,15 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 1. Once the infrastructure deployment is complete, we'll need to upload our source dataset to azure Blob. Here we'll go to the azure portal, select our azure blob store and use the storage explorer blade to upload our dataset to the hrdata container.
 
-2. Once we upload our dataset to blob, we'll be able to execute the PowerShell script in our Azure Cloud shell that provisions our Synapse environments datasets, dataflows, pipelines and notebooks.
+2. Once we upload our dataset to blob, we'll be able to execute the PowerShell script in our Azure Cloud shell that provisions our Synapse environments' datasets, dataflows, pipelines and notebooks.
 
-### Task 4: Download lab artifacts
+### Task 4: Upload the source dataset to Azure Blob
+
+1. Using Azure Storage Explorer in the Desktop tool or Portal, navigate to the hrdata container in our Azure Data Lake gen2 instance. Upload the entire schema folder from this project directory directly to the hrdata container.
+
+2. Once uploaded, this will allow us to set up an integration dataset that can be used to move data into and out of our CDM location.
+
+### Task 4: (Optional) Upload the CDM Schema to Azure Data Lake
 
 1. In the Azure Portal, open the Azure Cloud Shell by selecting its icon from the right side of the top toolbar. Be sure to select **Powershell** as the shell type.
 

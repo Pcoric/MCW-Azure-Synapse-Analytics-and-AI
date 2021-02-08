@@ -1,0 +1,120 @@
+{
+  "jsonSchemaSemanticVersion": "1.0.0",
+  "imports": [
+    {
+      "corpusPath": "_allImports.cdm.json"
+    }
+  ],
+  "definitions": [
+    {
+      "entityName": "Promotion",
+      "extendsEntity": "CdmEntity",
+      "hasAttributes": [
+        {
+          "name": "Record_id",
+          "dataType": "double"
+        },
+        {
+          "name": "Function",
+          "dataType": "string"
+        },
+        {
+          "name": "CostCenter",
+          "dataType": "string"
+        },
+        {
+          "name": "JobTitle",
+          "dataType": "string"
+        },
+        {
+          "name": "ServiceLine",
+          "dataType": "string"
+        },
+        {
+          "name": "PrimaryLOB",
+          "dataType": "string"
+        },
+        {
+          "name": "PrimarySectorSegment",
+          "dataType": "string"
+        },
+        {
+          "name": "ServiceNetwork",
+          "dataType": "string"
+        },
+        {
+          "name": "ServiceGroup",
+          "dataType": "string"
+        },
+        {
+          "name": "EmployeeType",
+          "dataType": "string"
+        },
+        {
+          "name": "EmployeeClass",
+          "dataType": "string"
+        },
+        {
+          "name": "SecondaryLOB",
+          "dataType": "string"
+        },
+        {
+          "name": "IsClientFacing",
+          "dataType": "string"
+        },
+        {
+          "name": "SecondarySectorSegment",
+          "dataType": "string"
+        },
+        {
+          "name": "Sublevel",
+          "dataType": "double"
+        },
+        {
+          "name": "FormTemplateID",
+          "dataType": "Double"
+        },
+        {
+          "name": "FormTemplateName",
+          "dataType": "string"
+        },
+        {
+          "name": "FormTitle",
+          "dataType": "string"
+        },
+        {
+          "name": "DocumentID",
+          "dataType": "double"
+        },
+        {
+          "name": "PromotionStatus",
+          "dataType": "string"
+        },
+        {
+          "name": "OverallPerformanceRating",
+          "dataType": "double"
+        },
+        {
+          "name": "OverallPerformanceRatingDescription",
+          "dataType": "string"
+        },
+        {
+          "name": "OverallPerformanceRatingDescriptionLocaleSpecific",
+          "dataType": "string"
+        },
+        {
+          "name": "UnadjustedOverallPerformanceRatingDescriptionLocaleSpecific",
+          "dataType": "string"
+        },
+        {
+          "name": "CalculatedOverallPerformanceRating",
+          "dataType": "string"
+        },
+        {
+          "name": "CalculatedOverallPerformanceRatingDescription",
+          "dataType": "string"
+        }
+      ]
+    }
+  ]
+}

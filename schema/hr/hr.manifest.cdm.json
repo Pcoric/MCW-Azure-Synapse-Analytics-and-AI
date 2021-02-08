@@ -1,0 +1,15 @@
+{
+  "$schema": "CdmManifest.cdm.json",
+  "jsonSchemaSemanticVersion": "1.0.0",
+  "imports": [],
+  "manifestName": "hr",
+  "explanation": "CDM standard entities",
+  "entities": [
+    {
+      "type": "LocalEntity",
+      "entityName": "Promotion",
+      "entityPath": "Promotion.cdm.json/Promotion"
+    }
+  ]
+}
+

@@ -172,54 +172,6 @@ foreach ($dataset in $datasets.Keys)
         Wait-ForOperation -WorkspaceName $workspaceName -OperationId $result.operationId
 }
 
-Write-Information "Create dataflows"
-
-$params = @{
-        "STORAGELINKEDSERVICENAME" = $blobStorageAccountName
-}
-$workloadDataflows = [ordered]@{
-        cdm_to_sql_dataflow = "CDMtoSQL"
-        src_to_cdm_pipeline = "SrcToCDM"
-}
-
-foreach ($dataflow in $workloadDataflows.Keys) 
-{
-    try
-    {
-        Write-Information "Creating dataflow $($workloadDataflows[$dataflow])"
-        $result = Create-Dataflow -DataflowsPath $dataflowsPath -WorkspaceName $workspaceName -Name $workloadDataflows[$dataflow] -FileName $workloadDataflows[$dataflow] -Parameters $params
-        Wait-ForOperation -WorkspaceName $workspaceName -OperationId $result.operationId
-    }
-    catch
-    {
-        write-host $_.exception;
-    }
-}
-
-Write-Information "Create pipelines"
-
-$params = @{
-        "STORAGELINKEDSERVICENAME" = $blobStorageAccountName
-}
-$workloadPipelines = [ordered]@{
-        cdm_to_sql_pool_pipeline = "CDMtoSQLPool"
-        src_to_cdm_pipeline = "SourceToCDMPipeline"
-}
-
-foreach ($pipeline in $workloadPipelines.Keys) 
-{
-    try
-    {
-        Write-Information "Creating pipeline $($workloadPipelines[$pipeline])"
-        $result = Create-Pipeline -PipelinesPath $pipelinesPath -WorkspaceName $workspaceName -Name $workloadPipelines[$pipeline] -FileName $workloadPipelines[$pipeline] -Parameters $params
-        Wait-ForOperation -WorkspaceName $workspaceName -OperationId $result.operationId
-    }
-    catch
-    {
-        write-host $_.exception;
-    }
-}
-
 Write-Information "Creating Spark notebooks..."
 
 $notebooks = [ordered]@{
